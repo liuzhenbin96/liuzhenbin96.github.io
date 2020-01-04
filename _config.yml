@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: 握不住手中沙
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: 握不住手中沙
 language: en
 timezone: ''
 
@@ -98,4 +98,7 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/liuzhenbin96/liuzhenbin96.github.io.git
+  branch: master
+
