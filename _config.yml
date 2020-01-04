@@ -6,9 +6,9 @@
 title: 握不住手中沙
 subtitle: ''
 description: ''
-keywords:
+keywords: Java,Golang,MySQL,Docker
 author: 握不住手中沙
-language: en
+language: zh-Hans
 timezone: ''
 
 # URL
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -101,4 +101,3 @@ deploy:
   type: git
   repo: https://github.com/liuzhenbin96/liuzhenbin96.github.io.git
   branch: master
-
