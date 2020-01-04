@@ -75,7 +75,7 @@ footer:
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
 # subtitle: Subtitle
@@ -140,7 +140,7 @@ social:
 
 social_icons:
   enable: true
-  icons_only: false
+  icons_only: true
   transition: false
 
 # Blog rolls
@@ -182,8 +182,8 @@ sidebar:
   #  - always  expand for all pages automatically
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  Totally remove sidebar including sidebar toggle.
-  display: post
-  #display: always
+  #display: post
+  display: always
   #display: hide
   #display: remove
 
@@ -221,7 +221,7 @@ auto_excerpt:
 
 # Post meta display settings
 post_meta:
-  item_text: true
+  item_text: false
   created_at: true
   updated_at: false
   categories: true
@@ -229,11 +229,11 @@ post_meta:
 # Post wordcount display settings
 # Dependencies: https://github.com/willin/hexo-wordcount
 post_wordcount:
-  item_text: true
-  wordcount: false
-  min2read: false
-  totalcount: false
-  separated_meta: true
+  item_text: false
+  wordcount: true
+  min2read: true
+  totalcount: true
+  separated_meta: false
 
 # Wechat Subscriber
 #wechat_subscriber:
@@ -259,7 +259,7 @@ post_copyright:
 # ---------------------------------------------------------------
 
 # Reduce padding / margin indents on devices with narrow width.
-mobile_layout_economy: false
+mobile_layout_economy: true
 
 # Android Chrome header panel color ($black-deep).
 android_chrome_color: "#222"
@@ -353,7 +353,7 @@ han: false
 #swiftype_key:
 
 # Baidu Analytics ID
-#baidu_analytics:
+baidu_analytics: b95ce923812ab0c1b901813ab8a79f82
 
 # Duoshuo ShortName
 #duoshuo_shortname:
@@ -604,12 +604,12 @@ algolia_search:
 # Local search
 # Dependencies: https://github.com/flashlab/hexo-generator-search
 local_search:
-  enable: false
+  enable: true
   # if auto, trigger search by changing input
   # if manual, trigger search by pressing enter key or search button
   trigger: auto
   # show top n results per article, show all results by setting to -1
-  top_n_per_article: 1
+  top_n_per_article: -1
 
 
 # ---------------------------------------------------------------
