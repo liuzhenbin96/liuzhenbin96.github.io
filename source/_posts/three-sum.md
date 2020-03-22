@@ -7,7 +7,7 @@ categories:
 - Leetcode
 ---
 ### 题目描述
-[1. 三数之和](https://leetcode-cn.com/problems/3sum/)
+[15. 三数之和](https://leetcode-cn.com/problems/3sum/)
 > 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 > 注意：答案中不可以包含重复的三元组。
 > 示例:  
@@ -107,6 +107,8 @@ public List<List<Integer>> threeSum(int[] nums) {
 有方法二中可以得知 ***a + b = -c***，在外层循环中固定元素 ***nums[i]***，然后再剩余元素中找到两元素相加和为-nums[i]的情况。此时若将数组元素有序，则可通过双指针的方式进行元素遍历，加快元素查找。数组有序，若nums[i]>0，则后续数组元素必大于零，不可能满足条件；否则使用双指针l=i+1和r=len-1遍历数组剩余元素，若 ***nums[l]+nums[r]+nums[i] > 0*** 则高位指针r向中间移动，否则低位指针l向中间移动；若 ***nums[l]+nums[r]+nums[i]=0*** 则通过判断l、r指针与其前/后元素是否相同加速指针移动。
 
 **代码示例**
+
+Java:
 
 ```java
 public List<List<Integer>> threeSum(int[] nums) {
