@@ -1,5 +1,5 @@
 ---
-title: 【Leetcode系列】：两数之和
+title: 【Leetcode系列】：1.两数之和
 tag:
 - Leetcode
 categories:
