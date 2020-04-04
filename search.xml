@@ -1,7 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>【Leetcode系列】：反转链表</title>
+    <title>【Leetcode系列】：18.四数之和</title>
+    <url>/four-sum/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/4sum/" target="_blank" rel="noopener">18. 四数之和</a></p>
+<blockquote>
+<p>给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。<br>注意：答案中不可以包含重复的四元组。<br>示例：<br>给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0<br>满足要求的四元组集合为：[[-1,  0, 0, 1],[-2, -1, 1, 2],[-2,  0, 0, 2]]</p>
+</blockquote>
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><p>四数之和与上一题三数之和的解题思路是一样的，也能通过暴力遍历和哈希表的方法来进行求解，这两种方法在这里就不过多赘述，可以先从两数之和、三数之和两题开始了解具体的解题思路。</p>
+<h4 id="双指针解法"><a href="#双指针解法" class="headerlink" title="双指针解法"></a>双指针解法</h4><p><strong>解题思路</strong></p>
+<p>题目要求不包含重复的四元组，且双指针一般用于有序数组的情况。首先我们将数组进行排序，然后通过两层循环固定两个元素 <strong><em>nums[i]和nums[j]</em></strong> ，此时就把问题转化为求三数之和。接着通过双指针l和r遍历数组，加快找到 <strong><em>nums[i]+nums[j]+nums[l]+nums[r]=target</em></strong> 的四元组。</p>
+<p><strong>代码示例</strong></p>
+<p>Java:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; fourSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    Arrays.sort(nums);</span><br><span class="line">    <span class="keyword">int</span> len = nums.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len - <span class="number">3</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> min = nums[i] + nums[i + <span class="number">1</span>] + nums[i + <span class="number">2</span>] + nums[i + <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">if</span> (min &gt; target) &#123;</span><br><span class="line">            <span class="keyword">break</span>;s</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> max = nums[i] + nums[len - <span class="number">1</span>] + nums[len - <span class="number">2</span>] + nums[len - <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">if</span> (max &lt; target) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; len - <span class="number">2</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j &gt; i + <span class="number">1</span> &amp;&amp; nums[j] == nums[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> min2 = nums[i] + nums[j] + nums[j + <span class="number">1</span>] + nums[j + <span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span>(min2 &gt; target)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> max2 = nums[i] + nums[j] + nums[len - <span class="number">1</span>] + nums[len - <span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span>(max2 &lt; target)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> l = j + <span class="number">1</span>, r = len - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[i] + nums[j] + nums[l] + nums[r];</span><br><span class="line">                <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">                    res.add(Arrays.asList(nums[i], nums[j], nums[l] ,nums[r]));</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l] == nums[++l]);</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r] == nums[--r]);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; target) &#123;</span><br><span class="line">                    l++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    r--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n^3)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode系列】：141.循环链表</title>
+    <url>/linked-list-cycle/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/linked-list-cycle/" target="_blank" rel="noopener">141.环形链表</a></p>
+<blockquote>
+<p>给定一个链表，判断链表中是否有环。<br>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">示例 1：</span><br><span class="line">输入：head &#x3D; [3,2,0,-4], pos &#x3D; 1  </span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br><span class="line"></span><br><span class="line">示例 2：</span><br><span class="line">输入：head &#x3D; [1,2], pos &#x3D; 0</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><h4 id="方法一：哈希表"><a href="#方法一：哈希表" class="headerlink" title="方法一：哈希表"></a>方法一：哈希表</h4><p><strong>解题思路</strong></p>
+<p>首先可以想到的方法就是遍历链表并将遍历的链表Node节点存入哈希表中，通过哈希表是判断Node是否已经存在，若已经存在则说明链表存在环，否则无环。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">* Definition for singly-linked list.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  ListNode next;</span><br><span class="line">  ListNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    Set&lt;ListNode&gt; visited = <span class="keyword">new</span> HashSet&lt;ListNode&gt;();</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    <span class="keyword">while</span> (curr != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (visited.contains(curr)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        visited.add(curr);</span><br><span class="line">        curr = curr.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(n)，通过额外空间存储遍历节点</p>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><p><strong>解题思路</strong></p>
+<p>假设链表存在环，若两个遍历速率不一样的指针同时遍历整个链表，这两个指针最终会相遇。所以我们可以采用 <strong><em>快慢指针</em></strong> 的方式将空间复杂度优化到O(1)。慢指针slow每次遍历一个节点，快指针fast每次遍历两个节点，直到指针走到链表末尾或者两个指针相遇。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">* Definition for singly-linked list.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  ListNode next;</span><br><span class="line">  ListNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode slow = head, fast = head;</span><br><span class="line">    <span class="keyword">while</span>(fast != <span class="keyword">null</span> &amp;&amp; fast.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode系列】：142.循环链表II</title>
+    <url>/linked-list-cycle2/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">142.环形链表 II</a></p>
+<blockquote>
+<p>给定一个链表，返回链表开始入环的第一个节点。如果链表无环，则返回 null。<br>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。<br>说明：不允许修改给定的链表。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">示例 1：</span><br><span class="line">输入：head &#x3D; [3,2,0,-4], pos &#x3D; 1</span><br><span class="line">输出：tail connects to node index 1</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br><span class="line"></span><br><span class="line">示例 2：</span><br><span class="line">输入：head &#x3D; [1,2], pos &#x3D; 0</span><br><span class="line">输出：tail connects to node index 0</span><br><span class="line">解释：链表中有一个环，其尾部连接到第一个节点。</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><h4 id="方法一：哈希表"><a href="#方法一：哈希表" class="headerlink" title="方法一：哈希表"></a>方法一：哈希表</h4><p><strong>解题思路</strong></p>
+<p>首先可以想到的方法就是遍历链表并将遍历的链表Node节点存入哈希表中，若链表有环则返回第一个出现的重复的Node节点。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">* Definition for singly-linked list.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  ListNode next;</span><br><span class="line">  ListNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    Set&lt;ListNode&gt; visited = <span class="keyword">new</span> HashSet&lt;ListNode&gt;();</span><br><span class="line">    ListNode curr = head;</span><br><span class="line">    <span class="keyword">while</span> (curr != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (visited.contains(curr)) &#123;</span><br><span class="line">            <span class="keyword">return</span> curr;</span><br><span class="line">        &#125;</span><br><span class="line">        visited.add(curr);</span><br><span class="line">        curr = curr.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(n)，通过额外空间存储遍历节点</p>
+<h4 id="方法二：双指针"><a href="#方法二：双指针" class="headerlink" title="方法二：双指针"></a>方法二：双指针</h4><p><strong>解题思路</strong></p>
+<p>在上一题环形链表中已经提过若链表有环的情况，快慢指针会在某个节点相遇。</p>
+<p>此时链表头节点到环起始点的距离为x，环起始点到快慢指针相遇节点的距离为y，然后相遇节点再继续走z的距离回到环起始点。</p>
+<p>由于快指针的速度时慢指针的两倍，所以快指针追上慢指针必然比慢指针多走一圈。此时慢指针走的路程s = x + y，快指针走的路程f = x + y + z + y，且 f = 2s，所有可以得到 x = z，也就是说头节点到环起始点的距离等于指针相遇节点到环起始点距离。所以当快慢指针相遇时，指定其中一个指针回到头节点，并保持相等的速度继续遍历直到两个指针再次相遇则为链表环的起始点了。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">* Definition for singly-linked list.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> val;</span><br><span class="line">  ListNode next;</span><br><span class="line">  ListNode(<span class="keyword">int</span> x) &#123; val = x; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode slow = head, fast = head;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="keyword">null</span> || fast.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    fast = head;</span><br><span class="line">    <span class="keyword">while</span> (slow != fast) &#123;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> fast;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode系列】：206.反转链表</title>
     <url>/reverse-list/</url>
     <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/reverse-linked-list/" target="_blank" rel="noopener">206.反转链表</a></p>
 <blockquote>
@@ -36,32 +133,7 @@
       </tags>
   </entry>
   <entry>
-    <title>【Leetcode系列】：四数之和</title>
-    <url>/four-sum/</url>
-    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/4sum/" target="_blank" rel="noopener">18. 四数之和</a></p>
-<blockquote>
-<p>给定一个包含 n 个整数的数组 nums 和一个目标值 target，判断 nums 中是否存在四个元素 a，b，c 和 d ，使得 a + b + c + d 的值与 target 相等？找出所有满足条件且不重复的四元组。<br>注意：答案中不可以包含重复的四元组。<br>示例：<br>给定数组 nums = [1, 0, -1, 0, -2, 2]，和 target = 0<br>满足要求的四元组集合为：[[-1,  0, 0, 1],[-2, -1, 1, 2],[-2,  0, 0, 2]]</p>
-</blockquote>
-<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><p>四数之和与上一题三数之和的解题思路是一样的，也能通过暴力遍历和哈希表的方法来进行求解，这两种方法在这里就不过多赘述，可以先从两数之和、三数之和两题开始了解具体的解题思路。</p>
-<h4 id="双指针解法"><a href="#双指针解法" class="headerlink" title="双指针解法"></a>双指针解法</h4><p><strong>解题思路</strong></p>
-<p>题目要求不包含重复的四元组，且双指针一般用于有序数组的情况。首先我们将数组进行排序，然后通过两层循环固定两个元素 <strong><em>nums[i]和nums[j]</em></strong> ，此时就把问题转化为求三数之和。接着通过双指针l和r遍历数组，加快找到 <strong><em>nums[i]+nums[j]+nums[l]+nums[r]=target</em></strong> 的四元组。</p>
-<p><strong>代码示例</strong></p>
-<p>Java:</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; fourSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length &lt; <span class="number">4</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    Arrays.sort(nums);</span><br><span class="line">    <span class="keyword">int</span> len = nums.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len - <span class="number">3</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> min = nums[i] + nums[i + <span class="number">1</span>] + nums[i + <span class="number">2</span>] + nums[i + <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">if</span> (min &gt; target) &#123;</span><br><span class="line">            <span class="keyword">break</span>;s</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> max = nums[i] + nums[len - <span class="number">1</span>] + nums[len - <span class="number">2</span>] + nums[len - <span class="number">3</span>];</span><br><span class="line">        <span class="keyword">if</span> (max &lt; target) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; len - <span class="number">2</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (j &gt; i + <span class="number">1</span> &amp;&amp; nums[j] == nums[j - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> min2 = nums[i] + nums[j] + nums[j + <span class="number">1</span>] + nums[j + <span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span>(min2 &gt; target)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> max2 = nums[i] + nums[j] + nums[len - <span class="number">1</span>] + nums[len - <span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span>(max2 &lt; target)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> l = j + <span class="number">1</span>, r = len - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (l &lt; r) &#123;</span><br><span class="line">                <span class="keyword">int</span> sum = nums[i] + nums[j] + nums[l] + nums[r];</span><br><span class="line">                <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">                    res.add(Arrays.asList(nums[i], nums[j], nums[l] ,nums[r]));</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[l] == nums[++l]);</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; r &amp;&amp; nums[r] == nums[--r]);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; target) &#123;</span><br><span class="line">                    l++;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    r--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>复杂度分析</strong></p>
-<p>时间复杂度：O(n^3)</p>
-<p>空间复杂度：O(1)</p>
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-      <tags>
-        <tag>Leetcode</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【Leetcode系列】：三数之和</title>
+    <title>【Leetcode系列】：15.三数之和</title>
     <url>/three-sum/</url>
     <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/3sum/" target="_blank" rel="noopener">15. 三数之和</a></p>
 <blockquote>
@@ -108,7 +180,7 @@
       </tags>
   </entry>
   <entry>
-    <title>【Leetcode系列】：两数之和</title>
+    <title>【Leetcode系列】：1.两数之和</title>
     <url>/two-sum/</url>
     <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/two-sum/" target="_blank" rel="noopener">1. 两数之和</a></p>
 <blockquote>
