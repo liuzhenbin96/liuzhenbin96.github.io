@@ -236,4 +236,40 @@
         <tag>Leetcode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>【Leetcode系列】：24.两两交换链表中的节点</title>
+    <url>/swap-node-in-pairs/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/" target="_blank" rel="noopener">24.两两交换链表中的节点</a></p>
+<p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。</p>
+<p>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">示例：</span><br><span class="line">给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><h4 id="方法一：递归"><a href="#方法一：递归" class="headerlink" title="方法一：递归"></a>方法一：递归</h4><p><strong>解题思路</strong></p>
+<p>递归的解题思路在于把子问题交给下一层递归函数处理，而本身只聚焦于本层次的问题，当你得到递归函数返回值时，默认为已经得到正确结果，只需要继续处理当前层逻辑即可。</p>
+<p>本题需要两两交换链表节点，所以头节点 <strong><em>head</em></strong> 的下一个节点 <strong><em>next</em></strong> 必然就是新的头节点 <strong><em>newHead</em></strong> ，然后通过递归的方式交换 <strong><em>next</em></strong> 节点后面的链表，得到后续链表交换节点后直接赋值给头节点 <strong><em>head</em></strong> 的next指针，处理 <strong><em>newHead</em></strong> 和 <strong><em>head</em></strong> 的关联，得到交换后的链表。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// terminator</span></span><br><span class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span> || head.next == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// recursion</span></span><br><span class="line">    ListNode newHead = head.next;</span><br><span class="line">    head.next = swapPairs(newHead.next);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// process data</span></span><br><span class="line">    newHead.next = head;</span><br><span class="line">    <span class="keyword">return</span> newHead;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(n)，在递归时使用额外栈空间。</p>
+<h4 id="方法二：迭代"><a href="#方法二：迭代" class="headerlink" title="方法二：迭代"></a>方法二：迭代</h4><p><strong>解题思路</strong></p>
+<p>迭代的方式大家都比较熟悉，从链表头节点开始遍历然后两两交换节点。在交换节点的过程中，需要注意就是链表遍历到什么位置了，两两节点交换完成后是否还能继续向后遍历。</p>
+<p>迭代解法中通过 <strong><em>prev</em></strong> 和 <strong><em>curr</em></strong> 指针用来记录链表当前遍历位置，并且在两两节点交换完成后 <strong><em>prev</em></strong> 和 <strong><em>curr</em></strong> 指针向后移动继续进行节点交换，直到链表末尾。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">    ListNode newHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    newHead.next = head;</span><br><span class="line">    ListNode prev = newHead, curr = head;</span><br><span class="line">    <span class="keyword">while</span>(curr != <span class="keyword">null</span> &amp;&amp; curr.next != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 记录当前节点的next节点</span></span><br><span class="line">        ListNode next = curr.next;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 交换节点</span></span><br><span class="line">        curr.next = curr.next.next;</span><br><span class="line">        next.next = curr;</span><br><span class="line">        prev.next = next;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// prev，curr指针后移</span></span><br><span class="line">        prev = curr;</span><br><span class="line">        curr = curr.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(n)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
 </search>
