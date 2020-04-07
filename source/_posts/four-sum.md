@@ -43,7 +43,7 @@ public List<List<Integer>> fourSum(int[] nums, int target) {
         }
         int min = nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3];
         if (min > target) {
-            break;s
+            break;
         }
         int max = nums[i] + nums[len - 1] + nums[len - 2] + nums[len - 3];
         if (max < target) {
