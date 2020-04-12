@@ -310,4 +310,80 @@
         <tag>Leetcode</tag>
       </tags>
   </entry>
+  <entry>
+    <title>【Leetcode系列】：21.合并两个有序链表</title>
+    <url>/merge-two-sorted-lists/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener">21.合并两个有序链表</a></p>
+<p>将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">示例：</span><br><span class="line">输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4</span><br><span class="line">输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><h4 id="方法一：递归"><a href="#方法一：递归" class="headerlink" title="方法一：递归"></a>方法一：递归</h4><p><strong>解题思路</strong></p>
+<p>我们直接采用递归的方法，首先判断其中一个链表是否为空，若为空则无需进行递归比较直接返回结果。否则比较链表 <strong><em>l1</em></strong> 和链表 <strong><em>l2</em></strong> 的头元素哪个更小，将较小元素作为头节点，然后递归比较较小元素后的链表与另一链表，直至两链表元素都经过比较。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. terminator 递归终止条件</span></span><br><span class="line">    <span class="keyword">if</span> (l1 == <span class="keyword">null</span>) <span class="keyword">return</span> l2;</span><br><span class="line">    <span class="keyword">if</span> (l2 == <span class="keyword">null</span>) <span class="keyword">return</span> l1;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. process data  处理当前层逻辑</span></span><br><span class="line">    <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">        <span class="comment">// 3. drill down 递归到下一层</span></span><br><span class="line">        l1.next = mergeTwoLists(l1.next, l2);</span><br><span class="line">        <span class="keyword">return</span> l1;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        l2.next = mergeTwoLists(l2.next, l1);</span><br><span class="line">        <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(m+n)</p>
+<p>空间复杂度：O(m+n)</p>
+<h4 id="方法二：迭代"><a href="#方法二：迭代" class="headerlink" title="方法二：迭代"></a>方法二：迭代</h4><p><strong>解题思路</strong></p>
+<p>我们采用迭代的方式来解决该问题，首先我们需要新建一个哨兵元素 <strong><em>newHead</em></strong> 用来当做合并后的链表头节点。然后遍历比较链表 <strong><em>l1</em></strong> 和链表 <strong><em>l2</em></strong> 元素，将元素较小者赋值到合并后的链表上，直至完成两链表元素之间的比较。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    ListNode next;</span><br><span class="line">    ListNode(<span class="keyword">int</span> x) &#123;</span><br><span class="line">        val = x;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 新建哨兵节点</span></span><br><span class="line">    ListNode newHead = <span class="keyword">new</span> ListNode(-<span class="number">1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 迭代比较两链表元素</span></span><br><span class="line">    ListNode curr = newHead;</span><br><span class="line">    <span class="keyword">while</span>(l1 != <span class="keyword">null</span> &amp;&amp; l2 != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">            curr.next = l1;</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            curr.next = l2;</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        curr = curr.next;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 处理未比较元素</span></span><br><span class="line">    curr.next = l1 == <span class="keyword">null</span> ? l2 : l1;</span><br><span class="line">    <span class="keyword">return</span> newHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(m+n)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Leetcode系列】：88.合并两个有序数组</title>
+    <url>/merge-sorted-array/</url>
+    <content><![CDATA[<h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p><a href="https://leetcode-cn.com/problems/merge-sorted-array/" target="_blank" rel="noopener">88.合并两个有序数组</a></p>
+<p>给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。</p>
+<p>说明:<br>初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。<br>你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">示例：</span><br><span class="line">输入:</span><br><span class="line">nums1 &#x3D; [1,2,3,0,0,0], m &#x3D; 3</span><br><span class="line">nums2 &#x3D; [2,5,6],       n &#x3D; 3</span><br><span class="line">输出:[1,2,2,3,5,6]</span><br></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><h4 id="方法一：暴力法"><a href="#方法一：暴力法" class="headerlink" title="方法一：暴力法"></a>方法一：暴力法</h4><p><strong>解题思路</strong></p>
+<p>暴力解法就是直接把两个数组合并到一个数组中，完成合并后再进行排序。这种方式没有利用数组有序的特性，所以时间复杂度较差，时间复杂度为O((m+n)log(m+n))。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span> m, <span class="keyword">int</span>[] nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 合并数组</span></span><br><span class="line">    System.arraycopy(nums2, <span class="number">0</span>, nums1, m, n);</span><br><span class="line">    <span class="comment">// 2. 数组排序</span></span><br><span class="line">    Arrays.sort(nums1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O((m+n)log(m+n))</p>
+<p>空间复杂度：O(1)</p>
+<h4 id="方法二：双指针-从前往后"><a href="#方法二：双指针-从前往后" class="headerlink" title="方法二：双指针(从前往后)"></a>方法二：双指针(从前往后)</h4><p><strong>解题思路</strong></p>
+<p>两个数组都是有序数组，我们可以采用双指针的方式分别遍历 <strong><em>nums1</em></strong> 和 <strong><em>nums2</em></strong> 这两个数组。使用指针 <strong><em>p1</em></strong> 作为数组 <strong><em>nums1</em></strong> 的开头，指针 <strong><em>p2</em></strong> 作为数组 <strong><em>nums2</em></strong> 的开头，每次将较小值放入输出数组中去。由于 <strong><em>nums1</em></strong> 是用于输出的数组，所有先要把 <strong><em>nums1</em></strong>中的元素拷贝一份出来，此时需要O(m)的空间复杂度。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span> m, <span class="keyword">int</span>[] nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 拷贝nums1数组</span></span><br><span class="line">    <span class="keyword">int</span>[] temp = <span class="keyword">new</span> <span class="keyword">int</span>[m];</span><br><span class="line">    System.arraycopy(nums1, <span class="number">0</span>, temp, <span class="number">0</span>, m);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 双指针从前往后遍历</span></span><br><span class="line">    <span class="keyword">int</span> resIdx = <span class="number">0</span>, p1 = <span class="number">0</span>, p2 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(p1 &lt; m &amp;&amp; p2 &lt; n) &#123;</span><br><span class="line">        nums1[resIdx++] = temp[p1] &lt; nums2[p2] ? temp[p1++] : nums2[p2++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 拷贝未比较元素</span></span><br><span class="line">    <span class="keyword">if</span> (p1 &lt; m) &#123;</span><br><span class="line">        System.arraycopy(temp, p1, nums1, p1 + p2, m + n - p1 - p2);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (p2 &lt; n) &#123;</span><br><span class="line">        System.arraycopy(nums2, p2, nums1, p1 + p2, m + n - p1 - p2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(m+n)</p>
+<p>空间复杂度：O(m)</p>
+<h4 id="方法二：双指针-从后往前"><a href="#方法二：双指针-从后往前" class="headerlink" title="方法二：双指针(从后往前)"></a>方法二：双指针(从后往前)</h4><p><strong>解题思路</strong></p>
+<p>题目中提到nums1中有足够大的空间存储 <strong><em>nums1</em></strong> 和 <strong><em>nums2</em></strong> 中的元素，所以 <strong><em>nums1</em></strong> 数组下标 <strong><em>m-1</em></strong> 后面都是空闲空间。我们可以使用双指针从后往前的将 <strong><em>nums1</em></strong> 和 <strong><em>nums2</em></strong> 中的较大值放入 <strong><em>nums1</em></strong> 数组中。</p>
+<p><strong>代码示例</strong></p>
+<p>Java：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span> m, <span class="keyword">int</span>[] nums2, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 1. 双指针从后往前遍历</span></span><br><span class="line">    <span class="keyword">int</span> resIdx = m + n - <span class="number">1</span>, p1 = m - <span class="number">1</span>, p2 = n - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &gt;= <span class="number">0</span> &amp;&amp; j &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        nums1[resIdx--] = nums1[p1] &gt; nums2[p2] ? nums1[p1--] : nums2[p2--];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 拷贝未比较元素</span></span><br><span class="line">    <span class="keyword">while</span>(p2 &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">        nums1[resIdx--] = nums2[p2--];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>复杂度分析</strong></p>
+<p>时间复杂度：O(m+n)</p>
+<p>空间复杂度：O(1)</p>
+]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+      <tags>
+        <tag>Leetcode</tag>
+      </tags>
+  </entry>
 </search>
