@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="握不住手中沙">
 <meta property="og:description" content="题目描述25.K个一组翻转链表 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。 k是一个正整数，它的值小于或等于链表的长度。 如果节点总数不是k的整数倍，那么请将最后剩余的节点保持原有顺序。 说明：你的算法只能使用常数的额外空间。你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。 1234示例：给你这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5当k&amp;#x3">
 <meta property="article:published_time" content="2020-04-06T08:39:28.000Z">
-<meta property="article:modified_time" content="2020-04-06T08:40:18.601Z">
+<meta property="article:modified_time" content="2020-04-14T13:40:40.966Z">
 <meta property="article:author" content="握不住手中沙">
 <meta property="article:tag" content="Leetcode">
 <meta name="twitter:card" content="summary">
@@ -461,7 +461,7 @@
 <p>时间复杂度：O(n*k)</p>
 <p>空间复杂度：O(1)</p>
 <h4 id="方法二：递归法"><a href="#方法二：递归法" class="headerlink" title="方法二：递归法"></a>方法二：递归法</h4><p><strong>解题思路</strong></p>
-<p>递归的思路主要在于将子问题传递到下一层递归函数处理，递归函数返回的即正确结果，当前层只需要处理挡墙层逻辑即可。</p>
+<p>递归的思路主要在于将子问题传递到下一层递归函数处理，递归函数返回的即正确结果，当前层只需要处理当前层逻辑即可。</p>
 <p>当前层只需要处理K个链表元素的翻转，并调用递归函数处理后面未翻转的链表，递归函数处理完未翻转链表后返回结果，当前层拿到结果后与自身翻转结束后的链表进行拼接，最后得到完整的翻转结果。</p>
 <p><strong>代码示例</strong></p>
 <p>Java：</p>
